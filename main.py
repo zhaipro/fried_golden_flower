@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 def savefig():
     fn='result.jpg'
-    y = np.array([0.001183, 0.01362867, 0.02068196, 0.00682253, 0.20850199,
-                  0.27713576, 0.98135702, 0.69793358, 0.99663031, 0.98980148])
+    y = np.array([0.0, 0.0, 0.0, 0.0, 0.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0])
     n, = y.shape
     x = list(range(n))
     plt.plot(x, y, 'b', label='y')
@@ -30,10 +30,8 @@ def func(a, b):
 
 
 def calc(n=10):
-    max_a = np.array([0.001183, 0.01362867, 0.02068196, 0.00682253, 0.20850199,
-                      0.27713576, 0.98135702, 0.69793358, 0.99663031, 0.98980148])
-    # max_a = np.arange(n) / (n - 1)
-    # max_a = np.random(n)
+    max_a = np.array([0.0, 0.0, 0.0, 0.0, 0.0,
+                      1.0, 1.0, 1.0, 1.0, 1.0])
     for i in range(10000000):
         a = np.random.random(n)
         r = func(max_a, a)
