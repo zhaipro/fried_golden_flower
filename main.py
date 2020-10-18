@@ -47,6 +47,31 @@ def calc(n=10):
     return max_a
 
 
+def func_v2(x, y):
+    n = x.size
+    x.shape = -1, 1
+    y.shape = 1, -1
+    return np.sum(np.maximum((x > 1) * 2, np.minimum(x, y)) * (np.tril(np.ones((n, n))) - np.triu(np.ones((n, n)))))
+
+
+def calc_v2(n=10, m=10):
+    y = np.ones(n)
+    # 1 庄家
+    y = np.array([1, 1, 1, 1, 1, 2, 2, 2, 2, 2])
+    x = np.array([1, 1, 1, 1, 1, 2, 4, 2, 7, 9])
+    for i in range(1000000):
+        r = func_v2(x, y) - func_v2(y, x)
+        # print(r)
+        # exit()
+        if r > 0:
+            print('hahaha', i, r, x, y.T, flush=True)
+            y = x
+        # break
+        x = np.random.randint(1, m + 1, n)
+    print(r, y.T)
+
+
 # calc()
-savefig()
+# savefig()
+calc_v2()
 # 关键是期望值，具体分布无关要紧？
