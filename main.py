@@ -91,12 +91,34 @@ def func_v3(x, y):
     return r
 
 
-def calc_v3(n=10, m=10):
+def func_v4(x, y):
+    n = x.size
+    r = 0
+    for i in range(n):
+        for j in range(n):
+            if i > j:
+                if x[i] > y[j]:
+                    r += max(y[j], 2) + y[j] + 1
+                elif x[i] < y[j]:
+                    r += x[i] + max(x[i], 2)
+                else:
+                    r += y[j] + max(y[j], 2)
+            elif i < j:
+                if x[i] > y[j]:
+                    r -= max(y[j], 2) + y[j]
+                elif x[i] < y[j]:
+                    r -= x[i] + 1 + max(x[i], 2)
+                else:
+                    r -= max(x[i], 2) + x[i]
+    return r
+
+
+def calc_v4(n=10, m=10):
     y = np.ones(n)
     y = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
     x = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
     for i in range(1000000):
-        r = func_v3(x, y) - func_v3(y, x)
+        r = func_v4(x, y)
         # print(r)
         # exit()
         if r > 0:
@@ -110,5 +132,6 @@ def calc_v3(n=10, m=10):
 # calc()
 # savefig()
 # calc_v2()
-calc_v3()
+# calc_v3()
+calc_v4()
 # 关键是期望值，具体分布无关要紧？
