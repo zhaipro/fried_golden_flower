@@ -55,7 +55,7 @@ def func_v2(x, y):
 def calc_v2(n=10, m=10):
     y = np.ones(n)
     # 1 庄家
-    y = np.array([1, 1, 1, 1, 1, 2, 2, 2, 2, 2])
+    y = np.array([1, 1, 1, 1, 1, 2, 2, 2, 2, 9])
     x = np.array([1, 1, 1, 1, 1, 2, 4, 2, 7, 9])
     for i in range(1000000):
         r = func_v2(x, y) - func_v2(y, x)
@@ -69,7 +69,46 @@ def calc_v2(n=10, m=10):
     print(r, y.T)
 
 
+def func_v3(x, y):
+    n = x.size
+    r = 0
+    for i in range(n):
+        for j in range(n):
+            if i > j:
+                if x[i] > y[j]:
+                    r += max(y[j], 2)
+                elif x[i] < y[j]:
+                    r += x[i]
+                else:
+                    r += y[j]
+            elif i < j:
+                if x[i] > y[j]:
+                    r -= max(y[j], 2)
+                elif x[i] < y[j]:
+                    r -= x[i] + 1
+                else:
+                    r -= max(x[i], 2)
+    return r
+
+
+def calc_v3(n=10, m=10):
+    y = np.ones(n)
+    y = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
+    x = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
+    for i in range(1000000):
+        r = func_v3(x, y) - func_v3(y, x)
+        # print(r)
+        # exit()
+        if r > 0:
+            print('hahaha', i, r, x, y, flush=True)
+            y = x
+        # break
+        x = np.random.randint(1, m + 1, n)
+    print(r, y)
+
+
 # calc()
 # savefig()
-calc_v2()
+# calc_v2()
+calc_v3()
 # 关键是期望值，具体分布无关要紧？
