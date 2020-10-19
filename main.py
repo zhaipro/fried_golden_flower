@@ -98,18 +98,14 @@ def func_v4(x, y):
         for j in range(n):
             if i > j:
                 if x[i] > y[j]:
-                    r += max(y[j], 2) + y[j] + 1
-                elif x[i] < y[j]:
+                    r += y[j] + max(y[j], 2) + 1
+                else:
                     r += x[i] + max(x[i], 2)
+            elif j > i:
+                if y[j] > x[i]:
+                    r -= x[i] + max(x[i], 2) + 1
                 else:
-                    r += y[j] + max(y[j], 2)
-            elif i < j:
-                if x[i] > y[j]:
-                    r -= max(y[j], 2) + y[j]
-                elif x[i] < y[j]:
-                    r -= x[i] + 1 + max(x[i], 2)
-                else:
-                    r -= max(x[i], 2) + x[i]
+                    r -= y[j] + max(y[j], 2)
     return r
 
 
