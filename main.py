@@ -125,9 +125,40 @@ def calc_v4(n=10, m=10):
     print(r, y)
 
 
+def func_v5(x, y):
+    # y 庄家
+    n = y.size
+    r = 0
+    for i in range(n):
+        for j in range(n):
+            if i > j:
+                if 2 * x - 1 > y[j]:
+                    r += max(1 + y[j] // 2 * 2, 3)
+                elif 2 * x - 1 < y[j]:
+                    r += 2 * x - 1
+                else:
+                    r += y[j]
+            elif i < j:
+                if 2 * x - 1 > y[j]:
+                    r -= max(1 + y[j] // 2 * 2, 3)
+                elif 2 * x - 1 < y[j]:
+                    r -= x + 1
+                else:
+                    r -= max(x, 2)
+    return r
+
+
+def calc_v5(n=10, m=10):
+    y = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
+    for x in range(1, 11):
+        r = func_v5(x, y)
+        print(r)
+
+
 # calc()
 # savefig()
 # calc_v2()
 # calc_v3()
-calc_v4()
+# calc_v4()
+calc_v5()
 # 关键是期望值，具体分布无关要紧？
