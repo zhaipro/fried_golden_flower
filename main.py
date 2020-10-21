@@ -125,6 +125,27 @@ def calc_v4(n=10, m=10):
     print(r, y)
 
 
+def calc_v45(n=10, m=10):
+    y = np.ones(n)
+    y = np.array([1, 1, 1, 1, 2, 2, 2, 3, 3, 10])
+    while True:
+        x = np.ones(n)
+        max_r = func_v4(x, y)
+        for i in range(n):
+            max_x = x[i]
+            for j in range(1, m + 1):
+                x[i] = j
+                r = func_v4(x, y)
+                if r > max_r:
+                    max_r = r
+                    max_x = j
+            x[i] = max_x
+        y = x
+        print(max_r, x, flush=True)
+        if max_r == 0:
+            break
+
+
 def func_v5(x, y):
     # y 庄家
     n = y.size
@@ -160,5 +181,6 @@ def calc_v5(n=10, m=10):
 # calc_v2()
 # calc_v3()
 # calc_v4()
-calc_v5()
+calc_v45()
+# calc_v5()
 # 关键是期望值，具体分布无关要紧？
