@@ -176,11 +176,42 @@ def calc_v5(n=10, m=10):
         print(r)
 
 
+def calc_v35(n=15, m=10):
+    x = np.ones(n)
+    y = np.ones(n)
+    for _ in range(10):
+        max_r = func_v3(x, y)
+        for i in range(n):
+            max_x = x[i]
+            for j in range(1, m + 1):
+                x[i] = j
+                r = func_v3(x, y)
+                if r > max_r:
+                    max_r = r
+                    max_x = j
+            x[i] = max_x
+        print('x:', max_r, x, flush=True)
+
+        min_r = func_v3(x, y)
+        for i in range(n):
+            min_y = y[i]
+            for j in range(1, m + 1):
+                y[i] = j
+                r = func_v3(x, y)
+                if r < min_r:
+                    min_r = r
+                    min_y = j
+            y[i] = min_y
+
+        print('y:', max_r, x, flush=True)
+
+
 # calc()
 # savefig()
 # calc_v2()
 # calc_v3()
+calc_v35()
 # calc_v4()
-calc_v45()
+# calc_v45()
 # calc_v5()
 # 关键是期望值，具体分布无关要紧？
