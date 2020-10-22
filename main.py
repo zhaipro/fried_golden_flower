@@ -206,12 +206,74 @@ def calc_v35(n=15, m=10):
         print('y:', max_r, x, flush=True)
 
 
+def func_v6(x, y):
+    # y 庄家
+    n, m = y.shape
+    r = 0
+    for i in range(n):
+        for j in range(m):
+            for k in range(n):
+                for l in range(m):
+                    q = x[i, j] * y[k, l]
+                    if j == 0:
+                        r -= q
+                    elif l == 0:
+                        r += q
+                    elif i > k:
+                        if j > l:
+                            r += (l + 1) * q
+                        else:
+                            r += j * q
+                    elif i < k:
+                        if j > l:
+                            r -= (l + 1) * q
+                        else:
+                            r -= (j + 1) * q
+    return r
+
+
+def calc_v6():
+    n, m = 10, 10
+    x = np.random.random((n, m))
+    x /= x.sum(axis=1, keepdims=True)
+    y = np.random.random((n, m))
+    y /= y.sum(axis=1, keepdims=True)
+
+    for i in range(20):
+        max_r = func_v6(x, y)
+        max_x = x
+        for _ in range(100):
+            r = func_v6(x, y)
+            if r > max_r:
+                max_r = r
+                max_x = x
+            x = np.random.random((n, m))
+            x /= x.sum(axis=1, keepdims=True)
+        x = max_x
+
+        min_r = func_v6(x, y)
+        min_y = y
+        for _ in range(100):
+            r = func_v6(x, y)
+            if r < min_r:
+                min_r = r
+                min_y = y
+            y = np.random.random((n, m))
+            y /= y.sum(axis=1, keepdims=True)
+        y = min_y
+    # print(y)
+    print(max_r, min_r)
+    print(max_x)
+    print(min_y)
+
+
 # calc()
 # savefig()
 # calc_v2()
 # calc_v3()
-calc_v35()
+# calc_v35()
 # calc_v4()
 # calc_v45()
 # calc_v5()
+calc_v6()
 # 关键是期望值，具体分布无关要紧？
