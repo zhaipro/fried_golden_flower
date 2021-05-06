@@ -267,6 +267,55 @@ def calc_v6():
     print(min_y)
 
 
+def softmax(x):
+    x = x - np.max(x, axis=-1, keepdims=True)
+    y = np.exp(x)
+    return y / np.sum(y, axis=-1, keepdims=True)
+
+
+# n x m
+def calc_v7(a, b, rival=3, lr=0.01):
+    assert a.shape == b.shape
+    assert rival >= 2
+    n, m = a.shape
+    # 给敌人发牌
+    boards = np.random.randint(n, size=rival)
+    # 敌人决策出价
+    prices = []
+    for board in boards:
+        prices.append(np.random.choice(m, p=b[board]))
+    prices = np.array(prices)
+    i, j = prices.argsort()[-2:]
+    b1 = boards[i]
+    b2 = boards[j]
+    p1 = prices[i]
+    p2 = prices[j]
+    gradient = np.zeros_like(a)
+
+    for b0 in range(n):
+        for p0 in range(m):
+            if p0 <= p1:
+                gradient[b0, p0] = -(p0 + 1)
+            elif b0 <= b2:
+                gradient[b0, p0] = -(min(p0, p2) + 1)
+            else:
+                gradient[b0, p0] = (n - 1 + min(p0, p2) + np.sum(prices) - p2)
+        a[b0] += gradient[b0] * lr
+        a[b0] = softmax(a[b0])
+
+
+def calc_v8():
+    a = np.random.random((20, 10))
+    b = np.random.random((20, 10))
+    a = softmax(a)
+    b = softmax(b)
+    for i in range(1000):
+        for j in range(100):
+            calc_v7(a, b, rival=5, lr=0.001)
+        a, b = b, a
+    print(a, b)
+
+
 # calc()
 # savefig()
 # calc_v2()
@@ -275,5 +324,6 @@ def calc_v6():
 # calc_v4()
 # calc_v45()
 # calc_v5()
-calc_v6()
+# calc_v6()
+calc_v8()
 # 关键是期望值，具体分布无关要紧？
